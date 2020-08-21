@@ -1,5 +1,7 @@
 package edu.harvard.cs50.cheqyn;
 
+import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,7 +33,22 @@ public class ConversationThreadAdapter extends RecyclerView.Adapter<Conversation
             threadTitleTextView = view.findViewById(R.id.thread_title);
             threadDateTextView = view.findViewById(R.id.thread_nextdate);
 
-            //ToDO: set onClickListener to open that thread
+
+            // Listener that handles clicking to go to individual conversation threads
+            containerView.setOnClickListener(new View.OnClickListener() {
+
+                @Override
+                public void onClick(View view) {
+                    Context context = view.getContext();
+                    CheckInThread thread = (CheckInThread) containerView.getTag();
+                    Intent intent = new Intent(view.getContext(), ThreadActivity.class);
+                    Intent.putExtra("id", thread.id);
+                    Intent.putExtra("title", thread.title);
+                    Intent.putExtra("date", thread.soonestDate);
+
+                    context.startActivity(intent);
+                }
+            });
         }
     }
 
@@ -51,6 +68,7 @@ public class ConversationThreadAdapter extends RecyclerView.Adapter<Conversation
         CheckInThread current = checkInThreads.get(position);
         holder.threadTitleTextView.setText(current.title);
         holder.threadDateTextView.setText(current.soonestDate);
+        holder.containerView.setTag(current);
 
     }
 

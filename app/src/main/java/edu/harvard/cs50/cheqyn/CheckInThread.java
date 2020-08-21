@@ -16,7 +16,7 @@ public class CheckInThread {
     @ColumnInfo(name="title")
     public String title;
 
-    @ColumnInfo(name="date")
+    @ColumnInfo(name="soonestDate")
     public String soonestDate;
 
     private List<CheckIn> Checkins = new ArrayList<>();
