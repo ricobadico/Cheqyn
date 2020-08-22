@@ -12,4 +12,6 @@
     <string name="title_activity_thread">ThreadActivity</string>
 
     <string name="hello_first_fragment">Hello first fragment</string>
+
+    <string name="sub">Submit</string>
 </resources>

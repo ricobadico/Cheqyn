@@ -13,12 +13,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Thread Title"
-        android:textSize="30dp"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
         />
     <TextView
         android:id="@+id/thread_nextdate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
         android:text="Next Check In: September 1, 2047"
         />
 
