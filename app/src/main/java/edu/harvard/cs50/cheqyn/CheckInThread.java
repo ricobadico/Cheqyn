@@ -7,7 +7,7 @@ import androidx.room.PrimaryKey;
 import java.util.ArrayList;
 import java.util.List;
 
-@Entity(tableName = "thread")
+@Entity(tableName = "threads")
 public class CheckInThread {
 
     @PrimaryKey

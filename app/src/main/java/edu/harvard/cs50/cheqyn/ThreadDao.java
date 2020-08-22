@@ -6,17 +6,17 @@ import androidx.room.Query;
 import java.util.List;
 
 @Dao
-public class ThreadDao {
+public interface ThreadDao {
 
-    @Query("INSERT INTO thread (title, soonestDate) VALUES ('New Conversation', 'Select a Date')")
+    @Query("INSERT INTO threads (title, soonestDate) VALUES ('New Conversation', 'Select a Date')")
     void create();
     //TODO change hardcoded values to something inputted into the create method
     // TODO: set up a place where we get these values,then call create
 
 
-    @Query("DELETE FROM thread WHERE id = :id")
-    void delete(int id)
+    @Query("DELETE FROM threads WHERE id = :id")
+    void delete(int id);
 
-    @Query("SELECT * FROM thread")
+    @Query("SELECT * FROM threads")
     List<CheckInThread> getAllThreads();
 }

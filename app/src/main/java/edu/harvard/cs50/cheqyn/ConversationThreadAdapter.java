@@ -12,7 +12,6 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class ConversationThreadAdapter extends RecyclerView.Adapter<ConversationThreadAdapter.ConversationsThreadViewHolder> {
@@ -27,24 +26,23 @@ public class ConversationThreadAdapter extends RecyclerView.Adapter<Conversation
         public TextView threadTitleTextView;
         public TextView threadDateTextView;
 
-        public ConversationsThreadViewHolder(@NonNull View view) {
+        ConversationsThreadViewHolder(@NonNull View view) {
             super(view);
-            containerView = view.findViewById(R.id.thread_row);
-            threadTitleTextView = view.findViewById(R.id.thread_title);
-            threadDateTextView = view.findViewById(R.id.thread_nextdate);
+            this.containerView = view.findViewById(R.id.thread_row);
+            this.threadTitleTextView = view.findViewById(R.id.thread_title);
+            this.threadDateTextView = view.findViewById(R.id.thread_nextdate);
 
 
             // Listener that handles clicking to go to individual conversation threads
-            containerView.setOnClickListener(new View.OnClickListener() {
-
+            this.containerView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     Context context = view.getContext();
                     CheckInThread thread = (CheckInThread) containerView.getTag();
-                    Intent intent = new Intent(view.getContext(), ThreadActivity.class);
-                    Intent.putExtra("id", thread.id);
-                    Intent.putExtra("title", thread.title);
-                    Intent.putExtra("date", thread.soonestDate);
+                    Intent intent = new Intent(view.getContext(), CheckinsActivity.class);
+                    intent.putExtra("id", thread.id);
+                    intent.putExtra("title", thread.title);
+                    intent.putExtra("date", thread.soonestDate);
 
                     context.startActivity(intent);
                 }

@@ -10,7 +10,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".ThreadActivity"
+            android:name=".CheckinsActivity"
             android:label="@string/title_activity_thread"
             android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity
