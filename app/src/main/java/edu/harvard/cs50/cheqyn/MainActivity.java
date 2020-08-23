@@ -12,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.room.Room;
 
 import android.view.View;
 
@@ -25,8 +26,9 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
 
     private RecyclerView recyclerView;
-    private  RecyclerView.Adapter adapter;
+    private  ConversationThreadAdapter adapter;
     private RecyclerView.LayoutManager layoutManager;
+    public static ThreadDatabase database;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +37,8 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+
+        //todo switch these to the database
         List<CheckInThread> myDataset = new ArrayList<>(
         Arrays.asList(
                 new CheckInThread("One on One with Jacquard", "May 25, 2021"),
@@ -51,7 +55,13 @@ public class MainActivity extends AppCompatActivity {
         adapter = new ConversationThreadAdapter(myDataset);
         recyclerView.setAdapter(adapter);
 
+        // Set up database instance
+        database = Room
+                .databaseBuilder(getApplicationContext(), ThreadDatabase.class, "threads")
+                .allowMainThreadQueries()
+                .build();
 
+        // Setting up button which creates new thread
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -62,6 +72,13 @@ public class MainActivity extends AppCompatActivity {
                 context.startActivity(intent);
             }
         });
+
+    }
+
+    @Override
+    protected void onResume(){
+        super.onResume();
+        adapter.reload();
     }
 
     @Override

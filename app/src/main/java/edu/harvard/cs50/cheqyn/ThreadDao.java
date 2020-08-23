@@ -3,13 +3,14 @@ package edu.harvard.cs50.cheqyn;
 import androidx.room.Dao;
 import androidx.room.Query;
 
+import java.util.Date;
 import java.util.List;
 
 @Dao
 public interface ThreadDao {
 
-    @Query("INSERT INTO threads (title, soonestDate) VALUES ('New Conversation', 'Select a Date')")
-    void create();
+    @Query("INSERT INTO threads (title, soonestDate) VALUES (:title, :date)")
+    void create(String title, Date date);
     //TODO change hardcoded values to something inputted into the create method
     // TODO: set up a place where we get these values,then call create
 

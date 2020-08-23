@@ -74,4 +74,10 @@ public class ConversationThreadAdapter extends RecyclerView.Adapter<Conversation
     public int getItemCount() {
         return checkInThreads.size();
     }
+
+    public void reload() {
+        checkInThreads = MainActivity.database.threadDao().getAllThreads();
+        notifyDataSetChanged();
+
+    }
 }

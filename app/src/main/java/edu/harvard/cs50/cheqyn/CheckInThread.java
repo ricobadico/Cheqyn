@@ -19,7 +19,7 @@ public class CheckInThread {
     @ColumnInfo(name="soonestDate")
     public String soonestDate;
 
-    private List<CheckIn> Checkins = new ArrayList<>();
+//    private List<CheckIn> Checkins = new ArrayList<>();
 
     //TODO remove this constructor once the database takes care of it
     public CheckInThread(String title, String soonestDate){
