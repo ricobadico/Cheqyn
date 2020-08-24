@@ -88,7 +88,6 @@ public class CheckinFormActivity extends AppCompatActivity {
 
 
         // Submitting everything present on page to database
-        // Todo add extra field info (maybe by a for loop, adding columns to same id once created)
         submitButton.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -103,6 +102,7 @@ public class CheckinFormActivity extends AppCompatActivity {
                     assert checkinDT != null;
 
                     // Now update database with check in
+                    //todo: update thread soonest date
                     MainActivity.database.threadDao().createCheckin(threadId, checkinDT, titleField.getText().toString());
                     finish();
 

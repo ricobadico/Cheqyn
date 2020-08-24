@@ -17,13 +17,21 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.List;
 
 public class CheckinsActivity extends AppCompatActivity {
 
+    //For first list, upcoming checkins
     private RecyclerView recyclerView;
     private  CheckinsAdapter adapter;
     private RecyclerView.LayoutManager layoutManager;
+
+    //For second list, past checkins
+    private RecyclerView recyclerView2;
+    private  CheckinsAdapter adapter2;
+    private RecyclerView.LayoutManager layoutManager2;
+
     private TextView threadTitle;
     private int threadId;
 
@@ -34,19 +42,27 @@ public class CheckinsActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        //todo: create this from the passed in intent data
-        List<CheckIn> checkinsData = new ArrayList<>();
         threadId = getIntent().getIntExtra("id", 0);
-        checkinsData = MainActivity.database.threadDao().getThreadCheckIns(threadId);
+        List<CheckIn> checkinsData = new ArrayList<>();
 
-        // Setting up Recyclerview for list of Conversations
+        List<CheckIn> checkinsPastData = new ArrayList<>();
+        checkinsPastData = MainActivity.database.threadDao().getPastThreadCheckIns(threadId, Calendar.getInstance().getTime());
+
+        // Setting up Recyclerview for list of Future Conversations
         recyclerView = (RecyclerView)findViewById(R.id.thread_recycler_view);
         recyclerView.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
-
         adapter = new CheckinsAdapter(checkinsData, threadId);
         recyclerView.setAdapter(adapter);
+
+        // Setting up Recyclerview for list of Past Conversations
+        recyclerView2 = (RecyclerView)findViewById(R.id.thread_recycler_view2);
+        recyclerView2.setHasFixedSize(true);
+        layoutManager2 = new LinearLayoutManager(this);
+        recyclerView2.setLayoutManager(layoutManager2);
+        adapter2 = new CheckinsAdapter(checkinsPastData, threadId);
+        recyclerView2.setAdapter(adapter2);
 
 
         threadTitle = findViewById(R.id.thread_title_textview);
@@ -70,5 +86,6 @@ public class CheckinsActivity extends AppCompatActivity {
     protected void onResume(){
         super.onResume();
         adapter.reload();
+        adapter2.reload2();
     }
 }

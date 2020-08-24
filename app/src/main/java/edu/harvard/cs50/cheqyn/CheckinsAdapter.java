@@ -2,6 +2,7 @@ package edu.harvard.cs50.cheqyn;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 public class CheckinsAdapter extends RecyclerView.Adapter<CheckinsAdapter.CheckinsViewHolder> {
@@ -19,6 +21,7 @@ public class CheckinsAdapter extends RecyclerView.Adapter<CheckinsAdapter.Checki
     //TODO: change this in for database data
     private List<CheckIn> checkIns = new ArrayList<>();
     private int rootThreadId;
+    private String pastOrFuture;
 
     // The viewholder represents the structure of each individual item in the recyclerview list
     public static class CheckinsViewHolder extends RecyclerView.ViewHolder {
@@ -69,7 +72,6 @@ public class CheckinsAdapter extends RecyclerView.Adapter<CheckinsAdapter.Checki
         holder.checkinTitleTextView.setText(current.description);
         holder.checkinDetailsTextView.setText((current.date).toString());
         holder.containerView.setTag(current);
-
     }
 
     @Override
@@ -78,9 +80,12 @@ public class CheckinsAdapter extends RecyclerView.Adapter<CheckinsAdapter.Checki
     }
 
     public void reload() {
-
-        checkIns = MainActivity.database.threadDao().getThreadCheckIns(rootThreadId);
+        checkIns = MainActivity.database.threadDao().getFutureThreadCheckIns(rootThreadId, Calendar.getInstance().getTime());
         notifyDataSetChanged();
+    }
 
+    public void reload2() {
+        checkIns = MainActivity.database.threadDao().getPastThreadCheckIns(rootThreadId, Calendar.getInstance().getTime());
+        notifyDataSetChanged();
     }
 }

@@ -24,9 +24,11 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.List;
 
 public class ThreadFormActivity extends AppCompatActivity {
     private EditText titleField;
@@ -35,7 +37,7 @@ public class ThreadFormActivity extends AppCompatActivity {
     DatePickerDialog picker;
     private Button submitButton;
     private Button newFieldButton;
-    private static int fieldCounter;
+    private RelativeLayout layout;
 
 
     @Override
@@ -92,7 +94,6 @@ public class ThreadFormActivity extends AppCompatActivity {
 
         // Code for adding (and tracking) additional things in the check ins
         newFieldButton = findViewById(R.id.add_button);
-        ThreadFormActivity.fieldCounter = 0;
         newFieldButton.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -103,12 +104,11 @@ public class ThreadFormActivity extends AppCompatActivity {
                 addEditTitle.setLayoutParams(new RelativeLayout.LayoutParams(
                         LinearLayout.LayoutParams.MATCH_PARENT,
                         LinearLayout.LayoutParams.MATCH_PARENT));
-                addEditTitle.setHint("Add title here");
+                addEditTitle.setHint("Add description of what you are tracking:");
                 addEditTitle.setBackgroundColor(Color.parseColor("#CCCCCC"));
                 addEditTitle.setEms(15);
 
                 myLayout.addView(addEditTitle);
-                ThreadFormActivity.fieldCounter++;
             }
         });
 
@@ -140,6 +140,10 @@ public class ThreadFormActivity extends AppCompatActivity {
 
                     // And create a check in representing this first checkin in the thread
                     MainActivity.database.threadDao().createCheckin(threadID, checkinDT, "First Meeting");
+
+                    //Finally, add the custom fields created to the database, linked to the thread id
+                    layout = findViewById(R.id.form_main);
+                    addFieldData(layout, threadID);
                     finish();
 
                 } catch (ParseException e) {
@@ -149,5 +153,22 @@ public class ThreadFormActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    // Gets custom field data from the form
+    public void addFieldData(RelativeLayout layout, int threadID){
+        for (int i = 0; i < layout.getChildCount(); i++) {
+            int counter = 0;
+            View v = layout.getChildAt(i);
+            // Looking to capture data form all Edittexts except the non-custom ones already captured above
+            if (v instanceof EditText && (
+                    (v.getId() != R.id.editText_q1)
+                            || (v.getId() != R.id.editText_q2)
+                            || (v.getId() != R.id.editText_q3)
+            )) {
+                MainActivity.database.threadDao().createFieldData(threadID, counter, String.valueOf(((EditText) v).getText()));
+                counter++;
+            }
+        }
     }
 }
