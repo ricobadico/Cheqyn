@@ -61,12 +61,34 @@
         android:background="#CCCCCC"
         />
 
+    <TextView
+        android:id="@+id/form_textView_q3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/form_textView_q2"
+        android:layout_alignParentLeft="true"
+        android:text="Time:"
+        android:layout_marginTop="20dp"
+        android:layout_marginHorizontal="5dp"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:layout_centerHorizontal="true" />
+
+    <EditText
+        android:id="@+id/editText_q3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/form_textView_q3"
+        android:layout_toRightOf="@+id/form_textView_q3"
+        android:ems="15"
+        android:background="#CCCCCC"
+        />
+
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/form_extra_fields"
-        android:layout_below="@id/editText_q2"
+        android:layout_below="@id/editText_q3"
         android:layout_marginVertical="20dp"
         android:layout_marginHorizontal="20dp"
         />

@@ -5,6 +5,7 @@ import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Entity(tableName = "threads")
@@ -17,12 +18,12 @@ public class CheckInThread {
     public String title;
 
     @ColumnInfo(name="soonestDate")
-    public String soonestDate;
+    public Date soonestDate;
 
 //    private List<CheckIn> Checkins = new ArrayList<>();
 
     //TODO remove this constructor once the database takes care of it
-    public CheckInThread(String title, String soonestDate){
+    public CheckInThread(String title, Date soonestDate){
         this.title = title;
         this.soonestDate = soonestDate;
     }

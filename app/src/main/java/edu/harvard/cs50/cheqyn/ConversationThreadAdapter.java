@@ -65,7 +65,7 @@ public class ConversationThreadAdapter extends RecyclerView.Adapter<Conversation
     public void onBindViewHolder(ConversationsThreadViewHolder holder, int position) {
         CheckInThread current = checkInThreads.get(position);
         holder.threadTitleTextView.setText(current.title);
-        holder.threadDateTextView.setText(current.soonestDate);
+        holder.threadDateTextView.setText(current.soonestDate.toString());
         holder.containerView.setTag(current);
 
     }

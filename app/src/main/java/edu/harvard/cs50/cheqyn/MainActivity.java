@@ -39,12 +39,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         //todo switch these to the database
-        List<CheckInThread> myDataset = new ArrayList<>(
-        Arrays.asList(
-                new CheckInThread("One on One with Jacquard", "May 25, 2021"),
-                new CheckInThread("Lulu chat", "December 1, 2020"),
-                new CheckInThread("Touch Base with self", "August 23, 2020")
-        ));
+        List<CheckInThread> myDataset = new ArrayList<>();
 
         // Setting up Recyclerview for list of Conversations
         recyclerView = (RecyclerView)findViewById(R.id.recycler_view);
