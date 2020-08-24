@@ -16,6 +16,12 @@
         android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
         />
     <TextView
+        android:id="@+id/checkins_nexttext"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Next Check in:"
+        />
+    <TextView
         android:id="@+id/thread_nextdate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

@@ -9,7 +9,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ThreadFormActivity"></activity>
+        <activity android:name=".CheckinFormActivity"></activity>
+        <activity android:name=".ThreadFormActivity" />
         <activity
             android:name=".CheckinsActivity"
             android:label="@string/title_activity_thread"

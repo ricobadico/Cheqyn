@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ThreadFormActivity"
+    android:id="@+id/form_main">
+
+    <TextView
+        android:id="@+id/form_textView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Create a New Conversation"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"/>
+
+    <TextView
+        android:id="@+id/form_textView_q1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/form_textView1"
+        android:layout_alignParentLeft="true"
+        android:text="Title:"
+        android:layout_marginTop="20dp"
+        android:layout_marginHorizontal="5dp"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:layout_centerHorizontal="true" />
+
+    <EditText
+        android:id="@+id/editText_q1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/form_textView_q1"
+        android:layout_toRightOf="@+id/form_textView_q1"
+        android:background="#CCCCCC"
+        android:ems="15"
+        android:inputType="textPersonName" >
+    </EditText>
+
+    <TextView
+        android:id="@+id/form_textView_q2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/form_textView_q1"
+        android:layout_alignParentLeft="true"
+        android:text="Date:"
+        android:layout_marginTop="20dp"
+        android:layout_marginHorizontal="5dp"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:layout_centerHorizontal="true" />
+
+    <EditText
+        android:id="@+id/editText_q2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/form_textView_q2"
+        android:layout_toRightOf="@+id/form_textView_q2"
+        android:ems="15"
+        android:background="#CCCCCC"
+        />
+
+    <TextView
+        android:id="@+id/form_textView_q3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/form_textView_q2"
+        android:layout_alignParentLeft="true"
+        android:text="Time:"
+        android:layout_marginTop="20dp"
+        android:layout_marginHorizontal="5dp"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:layout_centerHorizontal="true" />
+
+    <EditText
+        android:id="@+id/editText_q3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/form_textView_q3"
+        android:layout_toRightOf="@+id/form_textView_q3"
+        android:ems="15"
+        android:background="#CCCCCC"
+        />
+
+    <Button
+        android:id="@+id/form_button1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="50dp"
+        android:background="#0099FF"
+        android:text="@string/sub"
+        android:textColor="#FFFFFF" />
+</RelativeLayout>

@@ -18,6 +18,7 @@ public class CheckinsAdapter extends RecyclerView.Adapter<CheckinsAdapter.Checki
 
     //TODO: change this in for database data
     private List<CheckIn> checkIns = new ArrayList<>();
+    private int rootThreadId;
 
     // The viewholder represents the structure of each individual item in the recyclerview list
     public static class CheckinsViewHolder extends RecyclerView.ViewHolder {
@@ -28,7 +29,7 @@ public class CheckinsAdapter extends RecyclerView.Adapter<CheckinsAdapter.Checki
         public CheckinsViewHolder(@NonNull View view) {
             super(view);
             containerView = view.findViewById(R.id.checkins_row);
-            checkinTitleTextView = view.findViewById(R.id.checkins_text1);
+            checkinTitleTextView = view.findViewById(R.id.checkins_title);
             checkinDetailsTextView = view.findViewById(R.id.checkins_text1);
 
                 //todo add click to go to info/ data entry
@@ -50,8 +51,9 @@ public class CheckinsAdapter extends RecyclerView.Adapter<CheckinsAdapter.Checki
         }
     }
 
-    public CheckinsAdapter(List<CheckIn> currentDataset){
+    public CheckinsAdapter(List<CheckIn> currentDataset, int threadId){
         checkIns = currentDataset;
+        rootThreadId = threadId;
     }
 
     @Override
@@ -64,8 +66,8 @@ public class CheckinsAdapter extends RecyclerView.Adapter<CheckinsAdapter.Checki
     @Override
     public void onBindViewHolder(CheckinsAdapter.CheckinsViewHolder holder, int position) {
         CheckIn current = checkIns.get(position);
-        holder.checkinTitleTextView.setText(current.date);
-        holder.checkinDetailsTextView.setText("Placeholder");
+        holder.checkinTitleTextView.setText(current.description);
+        holder.checkinDetailsTextView.setText((current.date).toString());
         holder.containerView.setTag(current);
 
     }
@@ -73,5 +75,12 @@ public class CheckinsAdapter extends RecyclerView.Adapter<CheckinsAdapter.Checki
     @Override
     public int getItemCount() {
         return checkIns.size();
+    }
+
+    public void reload() {
+
+        checkIns = MainActivity.database.threadDao().getThreadCheckIns(rootThreadId);
+        notifyDataSetChanged();
+
     }
 }

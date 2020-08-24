@@ -11,7 +11,10 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 public class ConversationThreadAdapter extends RecyclerView.Adapter<ConversationThreadAdapter.ConversationsThreadViewHolder> {
@@ -76,6 +79,8 @@ public class ConversationThreadAdapter extends RecyclerView.Adapter<Conversation
     }
 
     public void reload() {
+
+//        checkInThreads = MainActivity.database.threadDao().getAllFutureThreads(Calendar.getInstance().getTime());
         checkInThreads = MainActivity.database.threadDao().getAllThreads();
         notifyDataSetChanged();
 

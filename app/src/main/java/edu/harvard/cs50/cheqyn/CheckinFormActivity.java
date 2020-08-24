@@ -1,12 +1,9 @@
 package edu.harvard.cs50.cheqyn;
 
-import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
-import android.graphics.Color;
-import android.os.Build;
 import android.os.Bundle;
 import android.text.InputType;
 import android.util.Log;
@@ -14,34 +11,27 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TimePicker;
 
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.GregorianCalendar;
 
-public class ThreadFormActivity extends AppCompatActivity {
+public class CheckinFormActivity extends AppCompatActivity {
     private EditText titleField;
     private EditText dateField;
     private EditText timeField;
     DatePickerDialog picker;
     private Button submitButton;
-    private Button newFieldButton;
-    private static int fieldCounter;
+    private int threadId;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_thread_form);
+        setContentView(R.layout.activity_checkin_form);
 
         // Code for user entering date:
         dateField = findViewById(R.id.editText_q2);
@@ -53,13 +43,13 @@ public class ThreadFormActivity extends AppCompatActivity {
                 int day = calendar.get(Calendar.DAY_OF_MONTH);
                 int month = calendar.get(Calendar.MONTH);
                 int year = calendar.get(Calendar.YEAR);
-                picker = new DatePickerDialog(ThreadFormActivity.this,
-                    new DatePickerDialog.OnDateSetListener() {
-                        @Override
-                        public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                            dateField.setText((monthOfYear+1) + "/" + dayOfMonth + "/" + year);
-                        }
-                    }, year, month, day);
+                picker = new DatePickerDialog(CheckinFormActivity.this,
+                        new DatePickerDialog.OnDateSetListener() {
+                            @Override
+                            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                                dateField.setText((monthOfYear+1) + "/" + dayOfMonth + "/" + year);
+                            }
+                        }, year, month, day);
                 picker.show();
             }
         });
@@ -76,7 +66,7 @@ public class ThreadFormActivity extends AppCompatActivity {
                 int mHour = c.get(Calendar.HOUR_OF_DAY);
                 int mMinute = c.get(Calendar.MINUTE);
                 // Launch Time Picker Dialog
-                TimePickerDialog timePickerDialog = new TimePickerDialog(ThreadFormActivity.this,
+                TimePickerDialog timePickerDialog = new TimePickerDialog(CheckinFormActivity.this,
                         new TimePickerDialog.OnTimeSetListener() {
 
                             @Override
@@ -90,33 +80,11 @@ public class ThreadFormActivity extends AppCompatActivity {
             }
         });
 
-        // Code for adding (and tracking) additional things in the check ins
-        newFieldButton = findViewById(R.id.add_button);
-        ThreadFormActivity.fieldCounter = 0;
-        newFieldButton.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View view) {
-                LinearLayout myLayout = findViewById(R.id.form_extra_fields);
-
-                EditText addEditTitle = new EditText(ThreadFormActivity.this);
-                addEditTitle.setLayoutParams(new RelativeLayout.LayoutParams(
-                        LinearLayout.LayoutParams.MATCH_PARENT,
-                        LinearLayout.LayoutParams.MATCH_PARENT));
-                addEditTitle.setHint("Add title here");
-                addEditTitle.setBackgroundColor(Color.parseColor("#CCCCCC"));
-                addEditTitle.setEms(15);
-
-                myLayout.addView(addEditTitle);
-                ThreadFormActivity.fieldCounter++;
-            }
-        });
-
-
         submitButton = findViewById(R.id.form_button1);
         titleField = findViewById(R.id.editText_q1);
         dateField = findViewById(R.id.editText_q2);
         timeField = findViewById(R.id.editText_q3);
+        threadId = getIntent().getIntExtra("threadId", 0);
 
 
         // Submitting everything present on page to database
@@ -134,12 +102,8 @@ public class ThreadFormActivity extends AppCompatActivity {
                     Date checkinDT = df.parse(checkinDate + " " + checkinTime);
                     assert checkinDT != null;
 
-                    // Now update database with text fields //todo may have to check this
-                    CheckInThread thread = new CheckInThread(String.valueOf(titleField.getText()), checkinDT);
-                    int threadID = (int) MainActivity.database.threadDao().insertThread(thread);
-
-                    // And create a check in representing this first checkin in the thread
-                    MainActivity.database.threadDao().createCheckin(threadID, checkinDT, "First Meeting");
+                    // Now update database with check in
+                    MainActivity.database.threadDao().createCheckin(threadId, checkinDT, titleField.getText().toString());
                     finish();
 
                 } catch (ParseException e) {
