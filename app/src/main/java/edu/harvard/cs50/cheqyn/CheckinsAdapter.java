@@ -42,7 +42,7 @@ public class CheckinsAdapter extends RecyclerView.Adapter<CheckinsAdapter.Checki
                     Context context = view.getContext();
                     CheckIn currentCheckin = (CheckIn) containerView.getTag();
                     Intent intent = new Intent(view.getContext(), CheckinFilloutActivity.class);
-                    intent.putExtra("threadId", rootThreadId);
+                    intent.putExtra("checkinId", currentCheckin.id);
                     intent.putExtra("checkinTitle", currentCheckin.description);
                     context.startActivity(intent);
                 }

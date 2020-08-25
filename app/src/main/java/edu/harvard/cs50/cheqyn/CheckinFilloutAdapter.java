@@ -15,7 +15,7 @@ import java.util.List;
 
 public class CheckinFilloutAdapter extends RecyclerView.Adapter<CheckinFilloutAdapter.CheckinFilloutViewholder> {
     private List<CheckinFields> fields;
-    private int rootThreadId;
+    private int rootCheckinId;
 
     public static class CheckinFilloutViewholder extends RecyclerView.ViewHolder {
 
@@ -23,17 +23,29 @@ public class CheckinFilloutAdapter extends RecyclerView.Adapter<CheckinFilloutAd
         public TextView fieldTitle;
         public EditText fieldEditText;
 
-        public CheckinFilloutViewholder(@NonNull View itemView) {
+        public CheckinFilloutViewholder(@NonNull View itemView, final int checkinId) {
             super(itemView);
             containerView = itemView.findViewById(R.id.fillout_row);
             fieldTitle = itemView.findViewById(R.id.fillout_field_title);
             fieldEditText = itemView.findViewById(R.id.fillout_field_input);
+
+            fieldEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+                @Override
+                public void onFocusChange(View view, boolean hasFocus) {
+                    if (!hasFocus) {
+                        String fieldContents = String.valueOf(fieldEditText.getText());
+                        String title = String.valueOf(fieldTitle.getText());
+                        MainActivity.database.threadDao().saveFieldData(fieldContents, checkinId, title);
+                    }
+                }
+            });
+
         }
     }
 
-    public CheckinFilloutAdapter(List<CheckinFields> currentDataset, int threadId){
+    public CheckinFilloutAdapter(List<CheckinFields> currentDataset, int checkinId){
         fields = currentDataset;
-        rootThreadId = threadId;
+        rootCheckinId = checkinId;
     }
 
     @NonNull
@@ -41,7 +53,7 @@ public class CheckinFilloutAdapter extends RecyclerView.Adapter<CheckinFilloutAd
     public CheckinFilloutViewholder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.fillout_row, parent, false);
-        return new CheckinFilloutViewholder(view);
+        return new CheckinFilloutViewholder(view, rootCheckinId);
     }
 
     @Override
@@ -57,7 +69,7 @@ public class CheckinFilloutAdapter extends RecyclerView.Adapter<CheckinFilloutAd
     }
 
     public void reload() {
-        fields = MainActivity.database.threadDao().getFields(rootThreadId); //todo change to gettFields with rootThreadId
+        fields = MainActivity.database.threadDao().getFields(rootCheckinId); //todo change to gettFields with rootThreadId
         notifyDataSetChanged();
     }
 }

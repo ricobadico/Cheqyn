@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TimePicker;
 
 import java.text.DateFormat;
@@ -18,6 +19,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 public class CheckinFormActivity extends AppCompatActivity {
     private EditText titleField;
@@ -104,7 +106,13 @@ public class CheckinFormActivity extends AppCompatActivity {
                     // Now update database with check in
                     //todo: update thread soonest date
                     CheckIn newCheckin = new CheckIn(threadId, checkinDT, titleField.getText().toString());
-                    MainActivity.database.threadDao().insertCheckin(newCheckin);
+                    int checkinID = (int) MainActivity.database.threadDao().insertCheckin(newCheckin);
+
+
+                    // Lastly, create field entries with the new checkin ID added.
+                    // First, we need an arbitrary set of all the custom fieldds (we can use the ones at ID=1, the initial checkin, since it will have been created already for certain)
+                    List<CheckinFields> setOfFields = MainActivity.database.threadDao().getFields(1);
+                    addNewFieldData(setOfFields, threadId, checkinID);
 
                     // create fields entries for this particular checkin (this is done so that each checkin can save entered field data)
                     //todo... how do i do this?? (not sure how I could get all the various fields here). First thought is to:
@@ -122,6 +130,11 @@ public class CheckinFormActivity extends AppCompatActivity {
                 }
             }
         });
-
+    }
+    // Creates a new instance of each field with the new checkin's checkinID (for data storage)
+    public void addNewFieldData(List<CheckinFields> fieldParams, int threadID, int checkinID){
+        for (int i = 0; i < fieldParams.size(); i++) {
+                MainActivity.database.threadDao().createFieldData(threadID, checkinID, fieldParams.get(i).fieldTitle);
+        }
     }
 }

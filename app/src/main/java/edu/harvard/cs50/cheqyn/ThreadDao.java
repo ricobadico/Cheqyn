@@ -33,11 +33,15 @@ public interface ThreadDao {
     @Query("SELECT * FROM checkins WHERE (thread_id = :threadId) AND (date < :now) ORDER BY date DESC")
     List<CheckIn> getPastThreadCheckIns(int threadId, Date now);
 
-    @Query("SELECT * FROM checkin_fields WHERE thread_id = :threadId")
-    List<CheckinFields> getFields(int threadId);
+    @Query("SELECT * FROM checkin_fields WHERE checkin_id = :checkinId")
+    List<CheckinFields> getFields(int checkinId);
 
-    @Query("SELECT * FROM checkin_fields")
-    List<CheckinFields> getAllFields();
+    @Query("UPDATE checkin_fields SET field_data = :contents WHERE (checkin_id = :checkinId) AND (field_title = :title)")
+    void saveFieldData(String contents, int checkinId, String title);
+
+// for debugging
+//    @Query("SELECT * FROM checkin_fields")
+//    List<CheckinFields> getAllFields();
 
     //todo: create a createCheckin which links to thread, updates soonestDate if newer
 
