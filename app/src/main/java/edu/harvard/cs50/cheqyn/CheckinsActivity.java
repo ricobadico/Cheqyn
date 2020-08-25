@@ -43,7 +43,7 @@ public class CheckinsActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         threadId = getIntent().getIntExtra("id", 0);
-        List<CheckIn> checkinsData = new ArrayList<>();
+        List<CheckIn> checkinsData = MainActivity.database.threadDao().getFutureThreadCheckIns(threadId, Calendar.getInstance().getTime()); //todo may have to remove??
 
         List<CheckIn> checkinsPastData = new ArrayList<>();
         checkinsPastData = MainActivity.database.threadDao().getPastThreadCheckIns(threadId, Calendar.getInstance().getTime());

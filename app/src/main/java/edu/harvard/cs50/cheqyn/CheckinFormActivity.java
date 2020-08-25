@@ -103,7 +103,17 @@ public class CheckinFormActivity extends AppCompatActivity {
 
                     // Now update database with check in
                     //todo: update thread soonest date
-                    MainActivity.database.threadDao().createCheckin(threadId, checkinDT, titleField.getText().toString());
+                    CheckIn newCheckin = new CheckIn(threadId, checkinDT, titleField.getText().toString());
+                    MainActivity.database.threadDao().insertCheckin(newCheckin);
+
+                    // create fields entries for this particular checkin (this is done so that each checkin can save entered field data)
+                    //todo... how do i do this?? (not sure how I could get all the various fields here). First thought is to:
+                        //todo have only one row per thread field
+                        //todo and add a new column to that field corresponding to each checkin as they are made (or as text is filled out in the fillout form). name it the checkinID so its finadable
+                        // fill the editfields with the contents of those columns
+                    //
+                    //todo or, up creating the thread, make a basic version of the table for all the thread to use with special checkinid. Upon creation of a new checkin (also then), copy the data from the set of that special checkinid, with the updated checkinid
+
                     finish();
 
                 } catch (ParseException e) {

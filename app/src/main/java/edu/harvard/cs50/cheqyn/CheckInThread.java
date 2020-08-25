@@ -11,7 +11,7 @@ import java.util.List;
 @Entity(tableName = "threads")
 public class CheckInThread {
 
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
     public int id;
 
     @ColumnInfo(name="title")
@@ -22,7 +22,7 @@ public class CheckInThread {
 
 //    private List<CheckIn> Checkins = new ArrayList<>();
 
-    //TODO remove this constructor once the database takes care of it
+    //Allows for instantiation of basic thread entity
     public CheckInThread(String title, Date soonestDate){
         this.title = title;
         this.soonestDate = soonestDate;

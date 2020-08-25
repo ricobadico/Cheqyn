@@ -11,12 +11,12 @@ public class CheckinFields {
         public int id;
 
         // Used for attaching to a particular thread
-        @ColumnInfo(name = "thread_id")
-        public int threadId;
+        @ColumnInfo(name = "checkin_id")
+        public int checkinId;
 
         // Used fir iterating over fields within class
-        @ColumnInfo(name = "inner_id")
-        public int innerId;
+        @ColumnInfo(name = "thread_id")
+        public int threadId;
 
         // List of fields to fill out
         @ColumnInfo(name="field_title")

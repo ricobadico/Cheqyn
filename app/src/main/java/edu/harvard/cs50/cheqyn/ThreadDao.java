@@ -15,11 +15,11 @@ public interface ThreadDao {
     @Insert(onConflict = OnConflictStrategy.IGNORE) //todo maybe replace with .REPLACE
     long insertThread(CheckInThread thread);
 
-    @Query("INSERT INTO checkins (thread_id, date, description) VALUES (:threadId, :date, :description)")
-    void createCheckin(int threadId, Date date, String description);
+    @Insert(onConflict = OnConflictStrategy.IGNORE) //todo maybe replace with .REPLACE
+    long insertCheckin(CheckIn checkIn);
 
-    @Query("INSERT INTO checkin_fields (thread_id, inner_id, field_title) VALUES (:threadId, :innerId, :fieldTitle)")
-    void createFieldData(int threadId, int innerId, String fieldTitle);
+    @Query("INSERT INTO checkin_fields (thread_id, checkin_id, field_title) VALUES (:threadId, :checkinId, :fieldTitle)")
+    void createFieldData(int threadId, int checkinId, String fieldTitle);
 
     @Query("DELETE FROM threads WHERE id = :id")
     void delete(int id);
@@ -33,6 +33,11 @@ public interface ThreadDao {
     @Query("SELECT * FROM checkins WHERE (thread_id = :threadId) AND (date < :now) ORDER BY date DESC")
     List<CheckIn> getPastThreadCheckIns(int threadId, Date now);
 
+    @Query("SELECT * FROM checkin_fields WHERE thread_id = :threadId")
+    List<CheckinFields> getFields(int threadId);
+
+    @Query("SELECT * FROM checkin_fields")
+    List<CheckinFields> getAllFields();
 
     //todo: create a createCheckin which links to thread, updates soonestDate if newer
 

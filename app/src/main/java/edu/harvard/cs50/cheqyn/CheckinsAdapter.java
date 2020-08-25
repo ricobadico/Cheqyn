@@ -19,12 +19,11 @@ import java.util.List;
 public class CheckinsAdapter extends RecyclerView.Adapter<CheckinsAdapter.CheckinsViewHolder> {
 
     //TODO: change this in for database data
-    private List<CheckIn> checkIns = new ArrayList<>();
+    private List<CheckIn> checkIns;
     private int rootThreadId;
-    private String pastOrFuture;
 
     // The viewholder represents the structure of each individual item in the recyclerview list
-    public static class CheckinsViewHolder extends RecyclerView.ViewHolder {
+    public class CheckinsViewHolder extends RecyclerView.ViewHolder {
         public LinearLayout containerView;
         public TextView checkinTitleTextView;
         public TextView checkinDetailsTextView;
@@ -36,21 +35,18 @@ public class CheckinsAdapter extends RecyclerView.Adapter<CheckinsAdapter.Checki
             checkinDetailsTextView = view.findViewById(R.id.checkins_text1);
 
                 //todo add click to go to info/ data entry
-//            // Listener that handles clicking to go to individual conversation threads
-//            containerView.setOnClickListener(new View.OnClickListener() {
-//
-//                @Override
-//                public void onClick(View view) {
-//                    Context context = view.getContext();
-//                    CheckInThread thread = (CheckInThread) containerView.getTag();
-//                    Intent intent = new Intent(view.getContext(), CheckinsActivity.class);
-//                    Intent.putExtra("id", thread.id);
-//                    Intent.putExtra("title", thread.title);
-//                    Intent.putExtra("date", thread.soonestDate);
-//
-//                    context.startActivity(intent);
-//                }
-//            });
+            // Listener that handles clicking to go to individual conversation threads
+            containerView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Context context = view.getContext();
+                    CheckIn currentCheckin = (CheckIn) containerView.getTag();
+                    Intent intent = new Intent(view.getContext(), CheckinFilloutActivity.class);
+                    intent.putExtra("threadId", rootThreadId);
+                    intent.putExtra("checkinTitle", currentCheckin.description);
+                    context.startActivity(intent);
+                }
+            });
         }
     }
 

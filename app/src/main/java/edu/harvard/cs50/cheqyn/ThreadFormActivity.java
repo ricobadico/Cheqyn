@@ -37,7 +37,7 @@ public class ThreadFormActivity extends AppCompatActivity {
     DatePickerDialog picker;
     private Button submitButton;
     private Button newFieldButton;
-    private RelativeLayout layout;
+    private LinearLayout layout;
 
 
     @Override
@@ -139,11 +139,12 @@ public class ThreadFormActivity extends AppCompatActivity {
                     int threadID = (int) MainActivity.database.threadDao().insertThread(thread);
 
                     // And create a check in representing this first checkin in the thread
-                    MainActivity.database.threadDao().createCheckin(threadID, checkinDT, "First Meeting");
+                    CheckIn newCheckin = new CheckIn(threadID, checkinDT, "First Meeting");
+                    int checkinID = (int) MainActivity.database.threadDao().insertCheckin(newCheckin);
 
                     //Finally, add the custom fields created to the database, linked to the thread id
-                    layout = findViewById(R.id.form_main);
-                    addFieldData(layout, threadID);
+                    layout = findViewById(R.id.form_extra_fields);
+                    addFieldData(layout, threadID,checkinID);
                     finish();
 
                 } catch (ParseException e) {
@@ -156,17 +157,17 @@ public class ThreadFormActivity extends AppCompatActivity {
     }
 
     // Gets custom field data from the form
-    public void addFieldData(RelativeLayout layout, int threadID){
+    public void addFieldData(LinearLayout layout, int threadID, int checkinID){
         for (int i = 0; i < layout.getChildCount(); i++) {
             int counter = 0;
             View v = layout.getChildAt(i);
             // Looking to capture data form all Edittexts except the non-custom ones already captured above
             if (v instanceof EditText && (
                     (v.getId() != R.id.editText_q1)
-                            || (v.getId() != R.id.editText_q2)
-                            || (v.getId() != R.id.editText_q3)
+                            && (v.getId() != R.id.editText_q2)
+                            && (v.getId() != R.id.editText_q3)
             )) {
-                MainActivity.database.threadDao().createFieldData(threadID, counter, String.valueOf(((EditText) v).getText()));
+                MainActivity.database.threadDao().createFieldData(threadID, checkinID, String.valueOf(((EditText) v).getText()));
                 counter++;
             }
         }
