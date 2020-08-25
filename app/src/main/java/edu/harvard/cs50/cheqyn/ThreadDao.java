@@ -21,11 +21,14 @@ public interface ThreadDao {
     @Query("INSERT INTO checkin_fields (thread_id, checkin_id, field_title) VALUES (:threadId, :checkinId, :fieldTitle)")
     void createFieldData(int threadId, int checkinId, String fieldTitle);
 
-    @Query("DELETE FROM threads WHERE id = :id")
-    void delete(int id);
-
-    @Query("SELECT * FROM threads ORDER BY soonestDate")
+    @Query("SELECT * FROM threads ORDER BY soonestDate DESC")
     List<CheckInThread> getAllThreads();
+
+    @Query("SELECT * FROM threads WHERE soonestDate >= :now ORDER BY soonestDate DESC")
+    List<CheckInThread> getAllFutureThreads(Date now);
+
+    @Query("SELECT * FROM threads WHERE soonestDate < :now ORDER BY soonestDate DESC")
+    List<CheckInThread> getAllPastThreads(Date now);
 
     @Query("SELECT * FROM checkins WHERE (thread_id = :threadId) AND (date >= :now) ORDER BY date")
     List<CheckIn> getFutureThreadCheckIns(int threadId, Date now);
@@ -38,6 +41,12 @@ public interface ThreadDao {
 
     @Query("UPDATE checkin_fields SET field_data = :contents WHERE (checkin_id = :checkinId) AND (field_title = :title)")
     void saveFieldData(String contents, int checkinId, String title);
+
+    @Query("SELECT date FROM checkins WHERE (thread_id = :threadId) AND (date > :now) ORDER BY date LIMIT 1")
+    Date getSoonestDate(int threadId, Date now);
+
+    @Query("UPDATE threads SET soonestDate = :date WHERE id = :id")
+    void updateThreadSoonestDate(Date date, int id);
 
 // for debugging
 //    @Query("SELECT * FROM checkin_fields")

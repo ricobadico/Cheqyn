@@ -101,12 +101,16 @@ public class ThreadFormActivity extends AppCompatActivity {
                 LinearLayout myLayout = findViewById(R.id.form_extra_fields);
 
                 EditText addEditTitle = new EditText(ThreadFormActivity.this);
-                addEditTitle.setLayoutParams(new RelativeLayout.LayoutParams(
+                RelativeLayout.LayoutParams params = (new RelativeLayout.LayoutParams(
                         LinearLayout.LayoutParams.MATCH_PARENT,
                         LinearLayout.LayoutParams.MATCH_PARENT));
+                params.setMargins(10,10,10,10);
+                addEditTitle.setLayoutParams(params);
                 addEditTitle.setHint("Add description of what you are tracking:");
                 addEditTitle.setBackgroundColor(Color.parseColor("#CCCCCC"));
                 addEditTitle.setEms(15);
+                addEditTitle.setPadding(2,0,2,0);
+
 
                 myLayout.addView(addEditTitle);
             }

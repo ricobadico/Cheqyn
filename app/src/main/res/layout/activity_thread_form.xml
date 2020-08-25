@@ -101,6 +101,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="20dp"
         android:layout_marginBottom="20dp"
+        android:padding="5dp"
         android:background="#0099FF"
         android:text="Add new thing to track"
         android:textColor="#FFFFFF" />

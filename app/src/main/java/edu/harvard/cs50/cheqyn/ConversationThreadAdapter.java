@@ -80,9 +80,30 @@ public class ConversationThreadAdapter extends RecyclerView.Adapter<Conversation
 
     public void reload() {
 
-//        checkInThreads = MainActivity.database.threadDao().getAllFutureThreads(Calendar.getInstance().getTime());
-        checkInThreads = MainActivity.database.threadDao().getAllThreads();
+        soonestDateUpdater(MainActivity.database.threadDao().getAllThreads());
+        checkInThreads = MainActivity.database.threadDao().getAllFutureThreads(Calendar.getInstance().getTime());
         notifyDataSetChanged();
 
     }
+
+    public void reload2() {
+
+        checkInThreads = MainActivity.database.threadDao().getAllPastThreads(Calendar.getInstance().getTime());
+        notifyDataSetChanged();
+
+    }
+
+    // Update database to ensure we have the soonest date among upcoming threads
+    public void soonestDateUpdater(List<CheckInThread> threads){
+        for(int i = 0; i < threads.size(); i++) {
+            CheckInThread currentThread = threads.get(i);
+            //Get soonest future date among checkins in currently iterated thread
+            Date trueSoonestDate = MainActivity.database.threadDao().getSoonestDate(currentThread.id, Calendar.getInstance().getTime());
+            // if no future dates, we don't want to update this value
+            if(trueSoonestDate != null){
+                MainActivity.database.threadDao().updateThreadSoonestDate(trueSoonestDate, currentThread.id);
+            }
+        }
+    }
+
 }

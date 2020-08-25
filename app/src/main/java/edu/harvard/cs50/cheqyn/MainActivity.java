@@ -21,6 +21,7 @@ import android.view.MenuItem;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
@@ -30,6 +31,11 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView.LayoutManager layoutManager;
     public static ThreadDatabase database;
 
+    //For second list, past checkins
+    private RecyclerView recyclerView2;
+    private  ConversationThreadAdapter adapter2;
+    private RecyclerView.LayoutManager layoutManager2;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,24 +43,32 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-
+        // Set up database instance
+        database = Room
+                .databaseBuilder(getApplicationContext(), ThreadDatabase.class, "threads")
+                .allowMainThreadQueries()
+                .build();
         //todo switch these to the database
-        List<CheckInThread> myDataset = new ArrayList<>();
+        List<CheckInThread> myDataset = MainActivity.database.threadDao().getAllFutureThreads(Calendar.getInstance().getTime());
+        List<CheckInThread> myPastDataset = MainActivity.database.threadDao().getAllFutureThreads(Calendar.getInstance().getTime());
 
         // Setting up Recyclerview for list of Conversations
         recyclerView = (RecyclerView)findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
-
         adapter = new ConversationThreadAdapter(myDataset);
         recyclerView.setAdapter(adapter);
 
-        // Set up database instance
-        database = Room
-                .databaseBuilder(getApplicationContext(), ThreadDatabase.class, "threads")
-                .allowMainThreadQueries()
-                .build();
+        // Setting up Recyclerview for list of Past Conversations
+        recyclerView2 = (RecyclerView)findViewById(R.id.recycler_view2);
+        recyclerView2.setHasFixedSize(true);
+        layoutManager2 = new LinearLayoutManager(this);
+        recyclerView2.setLayoutManager(layoutManager2);
+        adapter2 = new ConversationThreadAdapter(myPastDataset);
+        recyclerView2.setAdapter(adapter2);
+
+
 
         // Setting up button which creates new thread
         FloatingActionButton fab = findViewById(R.id.fab);
@@ -74,6 +88,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume(){
         super.onResume();
         adapter.reload();
+        adapter2.reload2();
     }
 
     @Override
